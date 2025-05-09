@@ -53,3 +53,13 @@ collectstatic:
 # Очистить неиспользуемые контейнеры, образы и тома
 clean:
 	$(DOCKER_COMPOSE) down -v --rmi all --remove-orphans
+
+# Останавливает контейнеры, собирает из гита, пересобирает и запускает контейнеры, применяет миграции, собирает статику
+deploy:
+	git pull origin main
+	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) pull
+	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) up -d --remove-orphans
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py migrate
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py collectstatic --noinput
