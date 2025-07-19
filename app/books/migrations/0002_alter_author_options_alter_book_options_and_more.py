@@ -6,35 +6,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('books', '0001_initial'),
+        ("books", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='author',
-            options={'ordering': ['last_name', 'first_name']},
+            name="author",
+            options={"ordering": ["last_name", "first_name"]},
         ),
         migrations.AlterModelOptions(
-            name='book',
-            options={'ordering': ['-publication_date']},
+            name="book",
+            options={"ordering": ["-publication_date"]},
         ),
         migrations.AlterField(
-            model_name='author',
-            name='last_name',
+            model_name="author",
+            name="last_name",
             field=models.CharField(db_index=True, max_length=100),
         ),
         migrations.AlterField(
-            model_name='book',
-            name='isbn',
-            field=models.CharField(db_index=True, help_text='13-значный номер ISBN', max_length=13, unique=True),
+            model_name="book",
+            name="isbn",
+            field=models.CharField(
+                db_index=True,
+                help_text="13-значный номер ISBN",
+                max_length=13,
+                unique=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='genre',
-            name='name',
+            model_name="genre",
+            name="name",
             field=models.CharField(db_index=True, max_length=100, unique=True),
         ),
         migrations.AddIndex(
-            model_name='book',
-            index=models.Index(fields=['author', 'publication_date'], name='books_book_author__4be4b6_idx'),
+            model_name="book",
+            index=models.Index(
+                fields=["author", "publication_date"],
+                name="books_book_author__4be4b6_idx",
+            ),
         ),
     ]

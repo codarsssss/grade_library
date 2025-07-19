@@ -8,38 +8,90 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Author',
+            name="Author",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=100)),
-                ('middle_name', models.CharField(blank=True, help_text='Отчество (если есть)', max_length=100, null=True)),
-                ('last_name', models.CharField(max_length=100)),
-                ('birth_date', models.DateField(blank=True, null=True)),
-                ('is_cancelled', models.BooleanField(default=False, help_text='Автор отменен')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=100)),
+                (
+                    "middle_name",
+                    models.CharField(
+                        blank=True,
+                        help_text="Отчество (если есть)",
+                        max_length=100,
+                        null=True,
+                    ),
+                ),
+                ("last_name", models.CharField(max_length=100)),
+                ("birth_date", models.DateField(blank=True, null=True)),
+                (
+                    "is_cancelled",
+                    models.BooleanField(default=False, help_text="Автор отменен"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Genre',
+            name="Genre",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('publication_date', models.DateField()),
-                ('isbn', models.CharField(help_text='13-значный номер ISBN', max_length=13, unique=True)),
-                ('cover_image', models.ImageField(blank=True, null=True, upload_to='book_covers/')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='books', to='books.author')),
-                ('genres', models.ManyToManyField(related_name='books', to='books.genre')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("publication_date", models.DateField()),
+                (
+                    "isbn",
+                    models.CharField(
+                        help_text="13-значный номер ISBN", max_length=13, unique=True
+                    ),
+                ),
+                (
+                    "cover_image",
+                    models.ImageField(blank=True, null=True, upload_to="book_covers/"),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="books",
+                        to="books.author",
+                    ),
+                ),
+                (
+                    "genres",
+                    models.ManyToManyField(related_name="books", to="books.genre"),
+                ),
             ],
         ),
     ]

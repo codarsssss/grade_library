@@ -1,12 +1,13 @@
 import csv
 
-from django.contrib import admin, messages
-from django.urls import path
+from django.contrib import messages
 from django.shortcuts import redirect, render
-from .forms import CSVImportForm
+from django.urls import path
+
 from books.models import Author, Book, Genre
 from books.validators import ISBNValidator
 
+from .forms import CSVImportForm
 
 
 class CSVImportAdminView:
@@ -36,17 +37,19 @@ class CSVImportAdminView:
                             first_name=row.get("first_name"),
                             last_name=row.get("last_name"),
                             middle_name=row.get("middle_name"),
-                            birth_date=row.get("birth_date")
+                            birth_date=row.get("birth_date"),
                         )
 
                         book, book_created = Book.objects.get_or_create(
                             title=row.get("title"),
                             author=author,
                             publication_date=row.get("publication_date"),
-                            isbn=row.get("isbn")
+                            isbn=row.get("isbn"),
                         )
 
-                        genre_names = [genre.strip() for genre in row.get("genre_names").split(";")]
+                        genre_names = [
+                            genre.strip() for genre in row.get("genre_names").split(";")
+                        ]
                         for genre_name in genre_names:
                             genre, _ = Genre.objects.get_or_create(name=genre_name)
                             book.genres.add(genre)
