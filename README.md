@@ -26,8 +26,8 @@ Django Library Project — это веб-приложение для управ�
 
 ### 1️⃣ Клонируйте репозиторий:
 ```bash
-git clone https://gitlab.digital-sector.ru/a.kuzmenko/library.git
-cd library
+git git@github.com:codarsssss/grade_library.git
+cd grade_library
 ```
 
 ### 2️⃣ Создайте `.env` файл:
@@ -95,3 +95,5 @@ http://localhost:8000
 - **Docker & Docker Compose** — контейнеризация
 - **Gunicorn** — WSGI-сервер
 - **Makefile** — автоматизация команд
+
+## В админ-панели реализован импорт CSV
