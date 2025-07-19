@@ -1,0 +1,19 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+  <h1>Импорт CSV</h1>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="messagelist {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Импортировать" class="default">
+  </form>
+
+  <p><a href="{% url 'admin:index' %}">← Вернуться в админку</a></p>
+{% endblock %}

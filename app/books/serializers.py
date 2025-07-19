@@ -7,7 +7,6 @@ from .validators import ISBNValidator
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = '__all__'
         exclude = ('is_cancelled',)
 
 
