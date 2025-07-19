@@ -63,3 +63,16 @@ deploy:
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py migrate
 	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py collectstatic --noinput
+
+# Форматирование кода black + isort
+format:
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) poetry run black .
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) poetry run isort .
+
+# Линтинг с flake8
+lint:
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) poetry run flake8 .
+
+
+# Проверка кода
+style: format lint

@@ -1,4 +1,5 @@
 import re
+
 from rest_framework import serializers
 
 
@@ -13,12 +14,18 @@ class ISBNValidator:
 
         if len(value) == 10:
             if not ISBNValidator.check_isbn10(value):
-                raise serializers.ValidationError("Некорректный ISBN-10 (ошибка контрольной суммы)")
+                raise serializers.ValidationError(
+                    "Некорректный ISBN-10 (ошибка контрольной суммы)"
+                )
         elif len(value) == 13:
             if not ISBNValidator.check_isbn13(value):
-                raise serializers.ValidationError("Некорректный ISBN-13 (ошибка контрольной суммы)")
+                raise serializers.ValidationError(
+                    "Некорректный ISBN-13 (ошибка контрольной суммы)"
+                )
         else:
-            raise serializers.ValidationError("ISBN должен содержать 10 или 13 символов")
+            raise serializers.ValidationError(
+                "ISBN должен содержать 10 или 13 символов"
+            )
 
         return value
 
@@ -34,6 +41,8 @@ class ISBNValidator:
     @staticmethod
     def check_isbn13(isbn):
         """Проверка контрольной суммы для ISBN-13"""
-        total = sum((1 if i % 2 == 0 else 3) * int(digit) for i, digit in enumerate(isbn[:12]))
+        total = sum(
+            (1 if i % 2 == 0 else 3) * int(digit) for i, digit in enumerate(isbn[:12])
+        )
         check_digit = (10 - (total % 10)) % 10
         return str(check_digit) == isbn[-1]

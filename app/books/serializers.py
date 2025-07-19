@@ -1,19 +1,19 @@
 from rest_framework import serializers
 
-from .models import Author, Genre, Book
+from .models import Author, Book, Genre
 from .validators import ISBNValidator
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        exclude = ('is_cancelled',)
+        exclude = ("is_cancelled",)
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = '__all__'
+        fields = "__all__"
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -23,4 +23,4 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = "__all__"

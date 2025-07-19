@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('books', '0002_alter_author_options_alter_book_options_and_more'),
+        ("books", "0002_alter_author_options_alter_book_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='book',
-            name='isbn',
-            field=models.CharField(db_index=True, help_text='10 или 13-значный номер ISBN', max_length=13, unique=True),
+            model_name="book",
+            name="isbn",
+            field=models.CharField(
+                db_index=True,
+                help_text="10 или 13-значный номер ISBN",
+                max_length=13,
+                unique=True,
+            ),
         ),
     ]

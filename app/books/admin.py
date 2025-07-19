@@ -6,7 +6,13 @@ from .models import Author, Book, Genre
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ("last_name", "first_name", "middle_name", "birth_date", "is_cancelled")
+    list_display = (
+        "last_name",
+        "first_name",
+        "middle_name",
+        "birth_date",
+        "is_cancelled",
+    )
     list_filter = ("is_cancelled",)
     search_fields = ("last_name", "first_name", "middle_name")
     ordering = ("last_name",)
