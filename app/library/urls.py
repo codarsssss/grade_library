@@ -9,6 +9,7 @@ from library.admin_views import CSVImportAdminView
 urlpatterns = [
     *CSVImportAdminView.get_urls(),
     path("admin/", admin.site.urls),
+    path("silk/", include("silk.urls", namespace="silk")),
     path("", include("books.urls")),
 ]
 

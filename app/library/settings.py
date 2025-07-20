@@ -25,11 +25,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "silk",
     "rest_framework",
     "books",
 ]
 
 MIDDLEWARE = [
+    "silk.middleware.SilkyMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -168,3 +170,9 @@ LOGGING = {
         },
     },
 }
+
+
+SILKY_PYTHON_PROFILER = True
+SILKY_PYTHON_PROFILER_BINARY = True
+SILKY_AUTHENTICATION = True  # чтобы ограничить доступ
+SILKY_AUTHORISATION = True  # доступ только админам
