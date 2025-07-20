@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "silk",
     "rest_framework",
     "books",
+    "django.contrib.sitemaps",
 ]
 
 MIDDLEWARE = [
