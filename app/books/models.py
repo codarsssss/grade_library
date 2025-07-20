@@ -1,6 +1,11 @@
+import logging
+
 from django.db import models
+from PIL import Image
 
 from .managers import AuthorManager, BookManager
+
+logger = logging.getLogger("library")
 
 
 class Author(models.Model):
@@ -57,3 +62,16 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.author.last_name})"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.cover_image:
+            image_path = self.cover_image.path
+            try:
+                img = Image.open(image_path)
+                max_size = (600, 800)
+                img.thumbnail(max_size, Image.LANCZOS)
+                img.save(image_path)
+            except Exception as e:
+                logger.warning(f"Ошибка при ресайзе обложки: {e}")

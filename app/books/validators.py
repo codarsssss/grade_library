@@ -1,5 +1,6 @@
-import re
 import logging
+import re
+
 from rest_framework import serializers
 
 logger = logging.getLogger("library")
@@ -31,7 +32,9 @@ class ISBNValidator:
                 )
         else:
             logger.warning(f"Недопустимая длина ISBN: {value}")
-            raise serializers.ValidationError("ISBN должен содержать 10 или 13 символов")
+            raise serializers.ValidationError(
+                "ISBN должен содержать 10 или 13 символов"
+            )
 
         logger.debug(f"ISBN прошел валидацию: {value}")
         return value
@@ -50,8 +53,7 @@ class ISBNValidator:
     def check_isbn13(isbn):
         """Контрольная сумма ISBN-13"""
         total = sum(
-            (1 if i % 2 == 0 else 3) * int(digit)
-            for i, digit in enumerate(isbn[:12])
+            (1 if i % 2 == 0 else 3) * int(digit) for i, digit in enumerate(isbn[:12])
         )
         check_digit = (10 - (total % 10)) % 10
         return str(check_digit) == isbn[-1]
