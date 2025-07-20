@@ -22,6 +22,10 @@ class Author(models.Model):
             return f"{self.first_name} {self.middle_name} {self.last_name}"
         return f"{self.first_name} {self.last_name}"
 
+    @property
+    def full_name(self):
+        return f"{self.last_name} {self.first_name} {self.middle_name or ''}".strip()
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True)

@@ -1,0 +1,25 @@
+<div class="row" id="book-list">
+    {% for book in books %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5>
+                      <a href="{% url 'book_detail' book.pk %}">
+                        {{ book.title }}
+                      </a>
+                    </h5>
+                    <p class="card-text">
+                        <strong>Автор:</strong><a href="{% url 'author_detail' book.author.pk %}">{{ book.author }}</a><br>
+                        <strong>Дата:</strong> {{ book.publication_date|date:"Y.m.d" }}<br>
+                        Жанры:
+                        {% for genre in book.genres.all %}
+                          <a href="{% url 'genre_detail' genre.pk %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Книги не найдены.</p>
+    {% endfor %}
+</div>
