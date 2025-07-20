@@ -134,3 +134,5 @@ lint.txt
 postgres_data/
 staticfiles/
 .env.local
+app/media/book_covers/*
+!app/media/book_covers/.gitkeep

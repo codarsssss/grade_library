@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ object.name }}</h1>
+<h3>Книги в жанре:</h3>
+<ul>
+  {% for book in books %}
+    <li><a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a></li>
+  {% endfor %}
+</ul>
+<a href="{% url 'index' %}" class="btn btn-secondary mt-4">← Назад к списку</a>
+{% endblock %}
