@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
@@ -16,9 +18,19 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'index' %}">📚 Библиотека</a>
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">📚 {% trans "Библиотека" %}</a>
+
+        <div class="ms-auto">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_current_language_bidi as LANGUAGE_BIDI %}
+          {% if LANGUAGE_CODE == 'ru' %}
+            <a href="/en{{ request.get_full_path|slice:'3:' }}" class="btn btn-outline-light">🇬🇧 EN</a>
+          {% else %}
+            <a href="/ru{{ request.get_full_path|slice:'3:' }}" class="btn btn-outline-light">🇷🇺 RU</a>
+          {% endif %}
         </div>
+      </div>
     </nav>
 
     <main class="container">
@@ -34,6 +46,24 @@
     <!-- Скрипты -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("lang-form");
+    const langInput = document.getElementById("lang-toggle");
+    const langBtn = document.getElementById("lang-btn");
+
+    const currentLang = document.documentElement.lang || "ru";
+    const targetLang = currentLang === "ru" ? "en" : "ru";
+    langInput.value = targetLang;
+    langBtn.textContent = targetLang === "ru" ? "🇷🇺 RU" : "🇬🇧 EN";
+
+    langBtn.addEventListener("click", function () {
+      langInput.value = targetLang;
+      form.submit();
+    });
+  });
+</script>
+
     {% block scripts %}{% endblock %}
 </body>
 </html>

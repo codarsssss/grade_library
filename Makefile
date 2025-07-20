@@ -73,6 +73,13 @@ format:
 lint:
 	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) poetry run flake8 .
 
-
 # Проверка кода
 style: format lint
+
+# Создание .po файлов для всех языков
+makemessages:
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py makemessages -l ru -l en
+
+# Компиляция переводов
+compilemessages:
+	$(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py compilemessages

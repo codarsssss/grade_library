@@ -1,18 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Каталог книг{% endblock %}
+{% block title %}{% trans "Каталог книг" %}{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Каталог книг</h1>
+<h1 class="mb-4">{% trans "Каталог книг" %}</h1>
 
 <form method="get" class="row g-3 mb-4" id="filter-form">
   <div class="col-md-4">
-    <input type="text" name="query" class="form-control" placeholder="Поиск по названию"
-           value="{{ current_query }}">
+    <input type="text" name="query" class="form-control" placeholder="{% trans 'Поиск по названию' %}" value="{{ current_query }}">
   </div>
   <div class="col-md-2">
     <select name="genre" class="form-select">
-      <option value="">Все жанры</option>
+      <option value="">{% trans 'Все жанры' %}</option>
       {% for genre in genres %}
         <option value="{{ genre.id }}" {% if genre.id|stringformat:"s" == current_genre %}selected{% endif %}>
           {{ genre.name }}
@@ -22,7 +22,7 @@
   </div>
   <div class="col-md-2">
     <select name="author" class="form-select">
-      <option value="">Все авторы</option>
+      <option value="">{% trans 'Все авторы' %}</option>
       {% for author in authors %}
         <option value="{{ author.id }}" {% if author.id|stringformat:"s" == current_author %}selected{% endif %}>
           {{ author.full_name }}
@@ -37,38 +37,11 @@
     <input type="date" name="date_to" class="form-control" value="{{ date_to }}">
   </div>
   <div class="col-md-12 text-end">
-    <button type="submit" class="btn btn-primary">Фильтровать</button>
+    <button type="submit" class="btn btn-primary">{% trans "Фильтровать" %}</button>
   </div>
 </form>
-
-
 
 <div id="book-container">
     {% include "books/includes/_book_list.html" %}
 </div>
-
 {% endblock %}
-
-{% block scripts %}
-<script>
-  $(function () {
-    $("form").on("submit", function (e) {
-      e.preventDefault();
-      const url = $(this).attr("action") || window.location.href;
-      const data = $(this).serialize();
-
-      $.ajax({
-        url: url,
-        data: data,
-        success: function (response) {
-          $("#book-container").html(response.html);
-        },
-        error: function () {
-          alert("Ошибка при загрузке данных.");
-        }
-      });
-    });
-  });
-</script>
-{% endblock %}
-
