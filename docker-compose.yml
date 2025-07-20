@@ -29,3 +29,18 @@ services:
       - "${EXTERNAL_DB_PORT}:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+  worker:
+    build: .
+    command: celery -A library worker --loglevel=info
+    working_dir: /app
+    depends_on:
+      - web
+      - redis
+    volumes:
+      - ./app:/app
+
+
