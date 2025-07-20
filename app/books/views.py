@@ -1,8 +1,8 @@
 import logging
 
 from django.http import JsonResponse
-from django.views.generic import ListView, DetailView
 from django.template.loader import render_to_string
+from django.views.generic import DetailView, ListView
 from rest_framework import viewsets
 
 from .models import Author, Book, Genre
@@ -11,6 +11,7 @@ from .serializers import AuthorSerializer, BookSerializer, GenreSerializer
 logger = logging.getLogger("library")
 
 # --- DRF ViewSets ---
+
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
@@ -41,6 +42,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
 # --- Классические Views ---
 
+
 class BookListView(ListView):
     model = Book
     template_name = "books/index.html"
@@ -52,9 +54,7 @@ class BookListView(ListView):
         logger.debug(f"Параметры фильтрации: {q.dict()}")
 
         queryset = (
-            Book.objects.select_related("author")
-            .prefetch_related("genres")
-            .all()
+            Book.objects.select_related("author").prefetch_related("genres").all()
         )
 
         try:
@@ -83,7 +83,9 @@ class BookListView(ListView):
     def render_to_response(self, context, **response_kwargs):
         if self.request.headers.get("x-requested-with") == "XMLHttpRequest":
             logger.debug("AJAX-запрос на фильтрацию книг")
-            html = render_to_string("books/includes/_book_list.html", context, request=self.request)
+            html = render_to_string(
+                "books/includes/_book_list.html", context, request=self.request
+            )
             return JsonResponse({"html": html})
         return super().render_to_response(context, **response_kwargs)
 
