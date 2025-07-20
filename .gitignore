@@ -137,3 +137,5 @@ staticfiles/
 app/media/book_covers/*
 !app/media/book_covers/.gitkeep
 *.prof
+!app/locale/en/LC_MESSAGES/*.mo
+!app/locale/ru/LC_MESSAGES/*.mo
