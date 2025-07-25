@@ -47,7 +47,6 @@ class BookListView(ListView):
     model = Book
     template_name = "books/index.html"
     context_object_name = "books"
-    paginate_by = 12
 
     def get_queryset(self):
         q = self.request.GET
@@ -71,13 +70,40 @@ class BookListView(ListView):
         except Exception as e:
             logger.exception(f"Ошибка при фильтрации книг: {e}")
 
-        return queryset.distinct()
+        self.full_queryset = queryset.distinct()
+
+        try:
+            page = int(q.get("page", 1))
+            page_size = int(q.get("page_size", 12))
+        except ValueError:
+            page, page_size = 1, 12
+
+        self.page = page
+        self.page_size = page_size
+        self.total_items = self.full_queryset.count()
+        self.total_pages = (self.total_items + page_size - 1) // page_size
+
+        start = (page - 1) * page_size
+        end = start + page_size
+        return self.full_queryset[start:end]
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["genres"] = Genre.objects.all()
         context["authors"] = Author.objects.all()
         context["current_query"] = self.request.GET.get("query", "")
+        context["page"] = self.page
+        context["page_size"] = self.page_size
+        context["total_items"] = self.total_items
+        context["total_pages"] = self.total_pages
+        context["has_next"] = self.page < self.total_pages
+        context["has_previous"] = self.page > 1
+        context["current_genre"] = self.request.GET.get("genre", "")
+        context["current_author"] = self.request.GET.get("author", "")
+        context["date_from"] = self.request.GET.get("date_from", "")
+        context["date_to"] = self.request.GET.get("date_to", "")
+        context["page_range"] = range(1, self.total_pages + 1)
         return context
 
     def render_to_response(self, context, **response_kwargs):
