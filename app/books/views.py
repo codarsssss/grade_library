@@ -87,6 +87,9 @@ class BookListView(ListView):
         end = start + page_size
         return self.full_queryset[start:end]
 
+    def pagination_range(self):
+        for page_number in range(1, self.total_pages + 1):
+            yield page_number
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -103,7 +106,7 @@ class BookListView(ListView):
         context["current_author"] = self.request.GET.get("author", "")
         context["date_from"] = self.request.GET.get("date_from", "")
         context["date_to"] = self.request.GET.get("date_to", "")
-        context["page_range"] = range(1, self.total_pages + 1)
+        context["page_range"] = self.pagination_range()
         return context
 
     def render_to_response(self, context, **response_kwargs):
