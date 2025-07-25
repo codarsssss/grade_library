@@ -43,5 +43,43 @@
 
 <div id="book-container">
     {% include "books/includes/_book_list.html" %}
+  <nav aria-label="Pagination">
+  <ul class="pagination justify-content-center">
+    {% if has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if current_query %}query={{ current_query }}&{% endif %}
+        {% if current_genre %}genre={{ current_genre }}&{% endif %}
+        {% if current_author %}author={{ current_author }}&{% endif %}
+        {% if date_from %}date_from={{ date_from }}&{% endif %}
+        {% if date_to %}date_to={{ date_to }}&{% endif %}
+        page={{ page|add:-1 }}&page_size={{ page_size }}">{% trans "Предыдущая" %}</a>
+      </li>
+    {% endif %}
+
+    {% for p in page_range %}
+      <li class="page-item {% if p == page %}active{% endif %}">
+        <a class="page-link" href="?{% if current_query %}query={{ current_query }}&{% endif %}
+        {% if current_genre %}genre={{ current_genre }}&{% endif %}
+        {% if current_author %}author={{ current_author }}&{% endif %}
+        {% if date_from %}date_from={{ date_from }}&{% endif %}
+        {% if date_to %}date_to={{ date_to }}&{% endif %}
+        page={{ p }}&page_size={{ page_size }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+
+
+    {% if has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?{% if current_query %}query={{ current_query }}&{% endif %}
+        {% if current_genre %}genre={{ current_genre }}&{% endif %}
+        {% if current_author %}author={{ current_author }}&{% endif %}
+        {% if date_from %}date_from={{ date_from }}&{% endif %}
+        {% if date_to %}date_to={{ date_to }}&{% endif %}
+        page={{ page|add:1 }}&page_size={{ page_size }}">{% trans "Следующая" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
 </div>
 {% endblock %}
